@@ -3,6 +3,7 @@ import { Newsreader } from "next/font/google";
 import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
+import QuoteFooter from "@/components/QuoteFooter";
 
 // Apply an explicit theme choice to prevent flashing of the wrong theme.
 const themeScript = `try{var t=localStorage.getItem('drift-theme');if(t==='dark'||t==='light')document.documentElement.classList.add(t);}catch(e){}`;
@@ -51,11 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <p className="italic">
               Every letter and reply quietly disappears 24 hours after it&apos;s written.
             </p>
-            <p className="mt-2">
-              If you&apos;re in crisis, please reach out. call or text{" "}
-              <span className="text-ink">988</span> (US Suicide &amp; Crisis Lifeline),
-              or your local emergency number. You matter.
-            </p>
+            <QuoteFooter />
           </div>
         </footer>
       </body>
