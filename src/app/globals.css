@@ -19,6 +19,37 @@
   --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
 }
 
+/* Effect colors that aren't Tailwind tokens, tuned per theme. */
+:root {
+  color-scheme: light;
+  --grain: rgba(124, 111, 147, 0.04);
+  --shadow-card: rgba(44, 42, 39, 0.25);
+}
+
+/*
+  Dark theme: warm charcoal "paper" rather than black, soft ink rather
+  than stark white, so the letter-like calm survives. Follows OS.
+*/
+@media (prefers-color-scheme: dark) {
+  /*
+    Override the plain custom properties. Not via @theme because Tailwind
+    hoists to an unconditional :root and it would pin the app to dark.
+  */
+  :root {
+    color-scheme: dark;
+    --color-paper: #1a1814;
+    --color-paper-raised: #211e19;
+    --color-ink: #e6e0d4;
+    --color-ink-soft: #9a9286;
+    --color-ink-faint: #9a928666;
+    --color-accent: #b8aecb;
+    --color-accent-soft: #7c6f93;
+    --color-edge: #34302a;
+    --grain: rgba(184, 174, 203, 0.05);
+    --shadow-card: rgba(0, 0, 0, 0.5);
+  }
+}
+
 html,
 body {
   background-color: var(--color-paper);
@@ -54,7 +85,7 @@ body {
   background-color: var(--color-paper-raised);
   background-image: radial-gradient(
     circle at 50% 0%,
-    rgba(124, 111, 147, 0.04),
+    var(--grain),
     transparent 70%
   );
 }
