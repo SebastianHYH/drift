@@ -19,6 +19,55 @@
   --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
 }
 
+/* Effect colors that aren't Tailwind tokens, tuned per theme. */
+:root {
+  color-scheme: light;
+  --grain: rgba(124, 111, 147, 0.04);
+  --shadow-card: rgba(44, 42, 39, 0.25);
+}
+
+/*
+  Dark theme: warm charcoal "paper" rather than black, soft ink rather
+  than stark white.
+
+  Applied in two cases:
+    - :root.dark            explicit user choice
+    - prefers-color-scheme  the OS default, UNLESS the user explicitly
+                            chose light (:not(.light))
+  The token block is intentionally duplicated rather than folded into a
+  nested @theme. Tailwind hoists @theme to an unconditional :root, which
+  would pin the app to a single theme.
+*/
+:root.dark {
+  color-scheme: dark;
+  --color-paper: #1a1814;
+  --color-paper-raised: #211e19;
+  --color-ink: #e6e0d4;
+  --color-ink-soft: #9a9286;
+  --color-ink-faint: #9a928666;
+  --color-accent: #b8aecb;
+  --color-accent-soft: #7c6f93;
+  --color-edge: #34302a;
+  --grain: rgba(184, 174, 203, 0.05);
+  --shadow-card: rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --color-paper: #1a1814;
+    --color-paper-raised: #211e19;
+    --color-ink: #e6e0d4;
+    --color-ink-soft: #9a9286;
+    --color-ink-faint: #9a928666;
+    --color-accent: #b8aecb;
+    --color-accent-soft: #7c6f93;
+    --color-edge: #34302a;
+    --grain: rgba(184, 174, 203, 0.05);
+    --shadow-card: rgba(0, 0, 0, 0.5);
+  }
+}
+
 html,
 body {
   background-color: var(--color-paper);
@@ -54,7 +103,51 @@ body {
   background-color: var(--color-paper-raised);
   background-image: radial-gradient(
     circle at 50% 0%,
-    rgba(124, 111, 147, 0.04),
+    var(--grain),
     transparent 70%
   );
+}
+
+/*
+  Theme toggle
+*/
+.icon-sun {
+  display: none;
+}
+:root.dark .icon-sun {
+  display: inline;
+}
+:root.dark .icon-moon {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .icon-sun {
+    display: inline;
+  }
+  :root:not(.light) .icon-moon {
+    display: none;
+  }
+}
+
+/*
+  A soft cross-fade applied while toggling themes
+*/
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    color 0.5s ease,
+    box-shadow 0.5s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition: none !important;
+  }
 }

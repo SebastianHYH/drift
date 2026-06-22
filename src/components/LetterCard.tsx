@@ -16,7 +16,7 @@ export default function LetterCard({
   children?: React.ReactNode;
 }) {
   return (
-    <article className="paper drift-in rounded-sm border border-edge px-7 py-6 shadow-[0_1px_24px_-12px_rgba(44,42,39,0.25)]">
+    <article className="paper drift-in rounded-sm border border-edge px-7 py-6 shadow-[0_1px_24px_-12px_var(--shadow-card)]">
       <header className="mb-4 flex items-center justify-between">
         <span className="text-xs uppercase tracking-[0.18em] text-ink-soft">{label}</span>
         <Countdown expiresAt={expiresAt} />

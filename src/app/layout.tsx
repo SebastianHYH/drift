@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Newsreader } from "next/font/google";
 import Link from "next/link";
+import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
+
+// Apply an explicit theme choice to prevent flashing of the wrong theme.
+const themeScript = `try{var t=localStorage.getItem('drift-theme');if(t==='dark'||t==='light')document.documentElement.classList.add(t);}catch(e){}`;
 
 const newsreader = Newsreader({
   subsets: ["latin"],
@@ -18,20 +22,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={newsreader.variable}>
+    <html lang="en" className={newsreader.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-screen flex flex-col">
         <header className="px-6 pt-8 pb-2">
           <nav className="mx-auto flex max-w-2xl items-baseline justify-between">
             <Link href="/" className="text-2xl tracking-tight text-ink">
               Drift
             </Link>
-            <div className="flex gap-6 text-sm text-ink-soft">
+            <div className="flex items-center gap-6 text-sm text-ink-soft">
               <Link href="/" className="transition-colors hover:text-accent">
                 Write
               </Link>
               <Link href="/inbox" className="transition-colors hover:text-accent">
                 Inbox
               </Link>
+              <ThemeToggle />
             </div>
           </nav>
         </header>
