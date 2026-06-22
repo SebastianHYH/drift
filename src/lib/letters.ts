@@ -77,14 +77,21 @@ export async function replyOnce(
     throw new Error("You've already replied to this letter.");
   }
 
-  // The reply vanishes when the letter does, both gone 24h after writing.
-  return prisma.reply.create({
-    data: {
-      letterId,
-      responderToken: token,
-      body: cleaned,
-      expiresAt: letter.expiresAt,
-    },
+  // Replying resets the shared clock to a fresh 24h, so the sender always gets a full day to read the reply.
+  const newExpiry = expiresAtFromNow();
+  return prisma.$transaction(async (tx) => {
+    await tx.letter.update({
+      where: { id: letterId },
+      data: { expiresAt: newExpiry },
+    });
+    return tx.reply.create({
+      data: {
+        letterId,
+        responderToken: token,
+        body: cleaned,
+        expiresAt: newExpiry,
+      },
+    });
   });
 }
 
