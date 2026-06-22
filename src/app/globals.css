@@ -28,14 +28,32 @@
 
 /*
   Dark theme: warm charcoal "paper" rather than black, soft ink rather
-  than stark white, so the letter-like calm survives. Follows OS.
+  than stark white.
+
+  Applied in two cases:
+    - :root.dark            explicit user choice
+    - prefers-color-scheme  the OS default, UNLESS the user explicitly
+                            chose light (:not(.light))
+  The token block is intentionally duplicated rather than folded into a
+  nested @theme. Tailwind hoists @theme to an unconditional :root, which
+  would pin the app to a single theme.
 */
+:root.dark {
+  color-scheme: dark;
+  --color-paper: #1a1814;
+  --color-paper-raised: #211e19;
+  --color-ink: #e6e0d4;
+  --color-ink-soft: #9a9286;
+  --color-ink-faint: #9a928666;
+  --color-accent: #b8aecb;
+  --color-accent-soft: #7c6f93;
+  --color-edge: #34302a;
+  --grain: rgba(184, 174, 203, 0.05);
+  --shadow-card: rgba(0, 0, 0, 0.5);
+}
+
 @media (prefers-color-scheme: dark) {
-  /*
-    Override the plain custom properties. Not via @theme because Tailwind
-    hoists to an unconditional :root and it would pin the app to dark.
-  */
-  :root {
+  :root:not(.light) {
     color-scheme: dark;
     --color-paper: #1a1814;
     --color-paper-raised: #211e19;
@@ -88,4 +106,48 @@ body {
     var(--grain),
     transparent 70%
   );
+}
+
+/*
+  Theme toggle
+*/
+.icon-sun {
+  display: none;
+}
+:root.dark .icon-sun {
+  display: inline;
+}
+:root.dark .icon-moon {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .icon-sun {
+    display: inline;
+  }
+  :root:not(.light) .icon-moon {
+    display: none;
+  }
+}
+
+/*
+  A soft cross-fade applied while toggling themes
+*/
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    color 0.5s ease,
+    box-shadow 0.5s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition: none !important;
+  }
 }
