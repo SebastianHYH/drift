@@ -1,0 +1,36 @@
+// Drift: anonymous, ephemeral letters.
+// Letters live in a pool; a stranger claims one, may reply once; both vanish after 24h.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Letter {
+  id          String    @id @default(cuid())
+  authorToken String // anonymous identity of the writer (drift_token cookie)
+  body        String
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime
+  claimedBy   String? // anonymous identity of the one stranger who received it
+  claimedAt   DateTime?
+  reply       Reply?
+
+  @@index([claimedBy])
+  @@index([authorToken])
+  @@index([expiresAt])
+}
+
+model Reply {
+  id             String   @id @default(cuid())
+  letterId       String   @unique // one reply per letter
+  letter         Letter   @relation(fields: [letterId], references: [id], onDelete: Cascade)
+  responderToken String
+  body           String
+  createdAt      DateTime @default(now())
+  expiresAt      DateTime
+}
