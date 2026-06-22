@@ -11,7 +11,7 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
-  title: "Drift. letters to a stranger",
+  title: "Drift. Letters to a stranger",
   description:
     "Write a letter to one random stranger. They may reply once. After a day, it's gone.",
 };
