@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/*
+  Drift. calm, letter-like aesthetic.
+  Warm off-white "paper", soft ink, a single muted accent (dusk lilac),
+  generous whitespace, serif throughout.
+*/
+
+@theme {
+  --color-paper: #f6f2ea;
+  --color-paper-raised: #fbf8f2;
+  --color-ink: #2c2a27;
+  --color-ink-soft: #6b655c;
+  --color-ink-faint: #9a938869;
+  --color-accent: #7c6f93;
+  --color-accent-soft: #b8aecb;
+  --color-edge: #e4ddd0;
+
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+}
+
+html,
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* A soft, slow fade used when letters appear. */
+@keyframes drift-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.drift-in {
+  animation: drift-in 1.1s ease-out both;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+/* Letter paper texture, a barely-there grain via layered gradients. */
+.paper {
+  background-color: var(--color-paper-raised);
+  background-image: radial-gradient(
+    circle at 50% 0%,
+    rgba(124, 111, 147, 0.04),
+    transparent 70%
+  );
+}
