@@ -44,6 +44,22 @@ body {
   animation: drift-in 1.1s ease-out both;
 }
 
+/* The reverse: a line drifting up and away before the next one arrives. */
+@keyframes drift-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.drift-out {
+  animation: drift-out 0.9s ease-in both;
+}
+
 ::selection {
   background: var(--color-accent-soft);
   color: var(--color-ink);

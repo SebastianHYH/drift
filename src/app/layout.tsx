@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Newsreader } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
+import QuoteFooter from "@/components/QuoteFooter";
 
 const newsreader = Newsreader({
   subsets: ["latin"],
@@ -43,11 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <p className="italic">
               Every letter and reply quietly disappears 24 hours after it&apos;s written.
             </p>
-            <p className="mt-2">
-              If you&apos;re in crisis, please reach out. call or text{" "}
-              <span className="text-ink">988</span> (US Suicide &amp; Crisis Lifeline),
-              or your local emergency number. You matter.
-            </p>
+            <QuoteFooter />
           </div>
         </footer>
       </body>
